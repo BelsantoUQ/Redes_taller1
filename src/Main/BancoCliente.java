@@ -5,17 +5,33 @@
  */
 package Main;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author USER
  */
 public class BancoCliente extends javax.swing.JFrame {
 
-    /**
-     * Creates new form BancoCliente
-     */
+    //Host del servidor
+    final String HOST;
+    //Puerto del servidor
+    final int PUERTO;
+    DataInputStream in;
+    DataOutputStream out;
+    String cedulaUsuario;
+
     public BancoCliente() {
         initComponents();
+        PUERTO = 5000;
+        HOST = "127.0.0.1";
+        cedulaUsuario = null;
     }
 
     /**
@@ -33,39 +49,135 @@ public class BancoCliente extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
+        jButton7 = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jButton1.setBackground(new java.awt.Color(0, 102, 102));
         jButton1.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         jButton1.setText("Crear Cuenta");
+        jButton1.setEnabled(false);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(0, 102, 102));
         jButton2.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         jButton2.setText("Modificar Cuenta");
+        jButton2.setEnabled(false);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setBackground(new java.awt.Color(0, 102, 102));
         jButton3.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         jButton3.setText("Cerrar Cuenta");
+        jButton3.setEnabled(false);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setBackground(new java.awt.Color(0, 102, 102));
         jButton4.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         jButton4.setText("Realizar Deposito");
+        jButton4.setEnabled(false);
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setBackground(new java.awt.Color(0, 102, 102));
         jButton5.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         jButton5.setText("Realizar Transferencia");
+        jButton5.setEnabled(false);
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jButton6.setBackground(new java.awt.Color(0, 102, 102));
         jButton6.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         jButton6.setText("Retirar Dinero");
+        jButton6.setEnabled(false);
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
+        jLabel1.setText("Cedula:");
+
+        jLabel2.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
+        jLabel2.setText("Clave:");
+
+        jTextField1.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
+
+        jTextField2.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
+
+        jButton7.setBackground(new java.awt.Color(0, 153, 153));
+        jButton7.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
+        jButton7.setText("Ingresar");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
+        jMenu1.setText("Ver");
+
+        jMenu3.setText("Usuarios");
+
+        jMenuItem2.setText("Detalles");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem2);
+
+        jMenu1.add(jMenu3);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Mi cuenta");
+
+        jMenuItem1.setText("Detalles");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(16, Short.MAX_VALUE)
+                .addContainerGap(68, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -73,12 +185,38 @@ public class BancoCliente extends javax.swing.JFrame {
                     .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(68, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jTextField1)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton7)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -95,6 +233,258 @@ public class BancoCliente extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        /*
+         nombre,  apellido,  cedula,  clave,  deposito
+         */
+
+        try {
+            //Creo el socket para conectarme con el cliente
+            Socket sc = new Socket(HOST, PUERTO);
+
+            in = new DataInputStream(sc.getInputStream());
+            out = new DataOutputStream(sc.getOutputStream());
+            String request = "1&";
+            request = request + (JOptionPane.showInputDialog("Ingrese el nombre del cliente")) + "&";
+            request = request + (JOptionPane.showInputDialog("Ingrese el apellido del cliente") + "&");
+            request = request + (JOptionPane.showInputDialog("Ingrese la cedula del cliente") + "&");
+            request = request + (JOptionPane.showInputDialog("Ingrese la clave del cliente") + "&");
+            request = request + (JOptionPane.showInputDialog("Ingrese el deposito inicial del cliente") + "&");
+            //Envio un mensaje al cliente
+            out.writeUTF(request);
+
+            //Recibo el mensaje del servidor
+            System.out.println("Respuesta: " + in.readUTF());
+
+            sc.close();
+
+        } catch (IOException ex) {
+            Logger.getLogger(BancoCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
+        /*
+        
+         clave,  numeroCuenta,  cambio,  nuevoValor
+        
+         */
+        try {
+            //Creo el socket para conectarme con el cliente
+            Socket sc = new Socket(HOST, PUERTO);
+
+            in = new DataInputStream(sc.getInputStream());
+            out = new DataOutputStream(sc.getOutputStream());
+            String request = "2&";
+            request = request + (JOptionPane.showInputDialog("Ingrese la clave")) + "&";
+            request = request + cedulaUsuario + "&";
+
+            request = request
+                    + (JOptionPane.showInputDialog(null, "Seleccione una opcion", "Opciones de Modificación", JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Nombre", "Apellido"}, "Nombre")
+                    + "&");
+
+            request = request + (JOptionPane.showInputDialog("Ingrese el nuevo valor") + "&");
+
+            //Envio un mensaje al cliente
+            out.writeUTF(request);
+
+            //Recibo el mensaje del servidor
+            System.out.println("Respuesta: " + in.readUTF());
+
+            sc.close();
+
+        } catch (IOException ex) {
+            Logger.getLogger(BancoCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+
+        /*
+            int cuenta, String motivo, int clave
+         */
+        try {
+            //Creo el socket para conectarme con el cliente
+            Socket sc = new Socket(HOST, PUERTO);
+
+            in = new DataInputStream(sc.getInputStream());
+            out = new DataOutputStream(sc.getOutputStream());
+            String request = "3&";
+            request = request + (JOptionPane.showInputDialog("Ingrese el numero de cuenta")) + "&";
+            request = request + (JOptionPane.showInputDialog("Ingrese el motivo del cierre de cuenta") + "&");
+            request = request + (JOptionPane.showInputDialog("Ingrese la clave del cliente") + "&");
+            //Envio un mensaje al cliente
+            out.writeUTF(request);
+
+            //Recibo el mensaje del servidor
+            System.out.println("Respuesta: " + in.readUTF());
+
+            sc.close();
+
+        } catch (IOException ex) {
+            Logger.getLogger(BancoCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+
+        /*
+            int cuenta, String cedula, double deposito
+         */
+        try {
+            //Creo el socket para conectarme con el cliente
+            Socket sc = new Socket(HOST, PUERTO);
+
+            in = new DataInputStream(sc.getInputStream());
+            out = new DataOutputStream(sc.getOutputStream());
+            String request = "4&";
+            request = request + (JOptionPane.showInputDialog("Ingrese el numero de la cuenta")) + "&";
+            request = request + cedulaUsuario + "&";
+            request = request + (JOptionPane.showInputDialog("Ingrese el deposito inicial del cliente") + "&");
+            //Envio un mensaje al cliente
+            out.writeUTF(request);
+
+            //Recibo el mensaje del servidor
+            System.out.println("Respuesta: " + in.readUTF());
+
+            sc.close();
+
+        } catch (IOException ex) {
+            Logger.getLogger(BancoCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        /*
+         int cuentaDestino, double transferencia, int cuentaOrigen, int clave
+         */
+
+        try {
+            //Creo el socket para conectarme con el cliente
+            Socket sc = new Socket(HOST, PUERTO);
+
+            in = new DataInputStream(sc.getInputStream());
+            out = new DataOutputStream(sc.getOutputStream());
+            String request = "5&";
+            request = request + (JOptionPane.showInputDialog("Ingrese el numero de cuenta de destino")) + "&";
+            request = request + (JOptionPane.showInputDialog("Ingrese el monto de transferencia") + "&");
+            request = request + (JOptionPane.showInputDialog("Ingrese el numero de cuenta de origen")) + "&";
+            request = request + (JOptionPane.showInputDialog("Ingrese la clave") + "&");
+
+            //Envio un mensaje al cliente
+            out.writeUTF(request);
+
+            //Recibo el mensaje del servidor
+            System.out.println("Respuesta: " + in.readUTF());
+
+            sc.close();
+
+        } catch (IOException ex) {
+            Logger.getLogger(BancoCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+
+        /*
+         int cuenta, String cedula, double retiro, int clave
+         */
+        try {
+            //Creo el socket para conectarme con el cliente
+            Socket sc = new Socket(HOST, PUERTO);
+
+            in = new DataInputStream(sc.getInputStream());
+            out = new DataOutputStream(sc.getOutputStream());
+            String request = "6&";
+            request = request + (JOptionPane.showInputDialog("Ingrese el numero de cuenta")) + "&";
+            request = request + (JOptionPane.showInputDialog("Ingrese el numero de la cedula")) + "&";
+            request = request + (JOptionPane.showInputDialog("Ingrese el monto de retiro") + "&");
+            request = request + (JOptionPane.showInputDialog("Ingrese la clave") + "&");
+            //Envio un mensaje al cliente
+            out.writeUTF(request);
+
+            //Recibo el mensaje del servidor
+            System.out.println("Respuesta: " + in.readUTF());
+
+            sc.close();
+
+        } catch (IOException ex) {
+            Logger.getLogger(BancoCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        /*
+           cedula,  clave
+         */
+        
+        if (jTextField2.getText().toString().equals("") || jTextField1.getText().toString().equals("")) {
+            System.out.println("Debe llenar ambos campos");
+        } else {
+            String request = "0&";
+            request = request + (jTextField1.getText().toString() + "&");
+            request = request + (jTextField2.getText().toString() + "&");
+            try {
+                //Creo el socket para conectarme con el cliente
+                Socket sc = new Socket(HOST, PUERTO);
+
+                in = new DataInputStream(sc.getInputStream());
+                out = new DataOutputStream(sc.getOutputStream());
+                //Envio un mensaje al cliente
+                out.writeUTF(request);
+
+                //Recibo el mensaje del servidor
+                String respuesta = in.readUTF();
+                System.out.println("Respuesta: " + respuesta);
+                if (respuesta.equals("200")) {
+                    System.out.println("Ingreso Exitoso");
+                    controlBotones(true);
+                } else {
+                    System.out.println("Los datos no son correcto");
+                }
+
+                sc.close();
+
+            } catch (IOException ex) {
+                Logger.getLogger(BancoCliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        String request = "7&";
+            try {
+                //Creo el socket para conectarme con el cliente
+                Socket sc = new Socket(HOST, PUERTO);
+
+                in = new DataInputStream(sc.getInputStream());
+                out = new DataOutputStream(sc.getOutputStream());
+                //Envio un mensaje al cliente
+                out.writeUTF(request);
+
+                //Recibo el mensaje del servidor
+                String respuesta = in.readUTF();
+                System.out.println("Respuesta: " + respuesta);
+                sc.close();
+
+            } catch (IOException ex) {
+                Logger.getLogger(BancoCliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        
+        
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -138,5 +528,24 @@ public class BancoCliente extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
+private void controlBotones(boolean logueado) {
+        jButton1.setEnabled(logueado);
+        jButton2.setEnabled(logueado);
+        jButton3.setEnabled(logueado);
+        jButton4.setEnabled(logueado);
+        jButton5.setEnabled(logueado);
+        jButton6.setEnabled(logueado);
+    }
 }
