@@ -50,27 +50,30 @@ public class BancoServer {
                 String[] solicitud = mensaje.split("&");
                 
                 switch (solicitud[0]){
-                    case "1": miBanco.abrirCuenta(solicitud[1], solicitud[2], solicitud[3], Integer.parseInt( solicitud[4] ), Double.parseDouble(solicitud[5]));
+                    case "0": out.writeUTF(miBanco.ingresar(solicitud[1], Integer.parseInt( solicitud[2] ))?"200":"400");
                         break;
                     
-                    case "2": miBanco.modificarCuenta(Integer.parseInt(solicitud[1]), Integer.parseInt(solicitud[2]), Integer.parseInt(solicitud[3]), solicitud[4]);
+                    case "1": out.writeUTF(miBanco.abrirCuenta(solicitud[1], solicitud[2], solicitud[3], Integer.parseInt( solicitud[4] ), Double.parseDouble(solicitud[5]))?"200":"No se pudo crear la cuenta");
                         break;
                     
-                    case "3": miBanco.cerrarCuenta(Integer.parseInt( solicitud[1] ), solicitud[2], Integer.parseInt( solicitud[3] ));
+                    case "2": out.writeUTF(miBanco.modificarCuenta(Integer.parseInt(solicitud[1]), Integer.parseInt(solicitud[2]), Integer.parseInt(solicitud[3]), solicitud[4])?"200":"No se pudo modificar la cuenta");
                         break;
                     
-                    case "4": miBanco.consignarDinero(Integer.parseInt( solicitud[1] ), solicitud[2], Double.parseDouble(solicitud[3]));
+                    case "3": out.writeUTF(miBanco.cerrarCuenta(Integer.parseInt( solicitud[1] ), solicitud[2], Integer.parseInt( solicitud[3] ))?"200":"No se pudo cerrar la cuenta");
                         break;
                     
-                    case "5": miBanco.transferirDinero(Integer.parseInt( solicitud[1] ), Double.parseDouble(solicitud[2]), Integer.parseInt( solicitud[3] ), Integer.parseInt( solicitud[4] ));
+                    case "4": out.writeUTF(miBanco.consignarDinero(Integer.parseInt( solicitud[1] ), solicitud[2], Double.parseDouble(solicitud[3]))!=-1?"200":"No se pudo realizar el deposito");
                         break;
                     
-                    case "6": miBanco.retirarDinero(Integer.parseInt( solicitud[1] ), solicitud[2], Double.parseDouble(solicitud[3]), Integer.parseInt( solicitud[4] ));
+                    case "5": out.writeUTF(miBanco.transferirDinero(Integer.parseInt( solicitud[1] ), Double.parseDouble(solicitud[2]), Integer.parseInt( solicitud[3] ), Integer.parseInt( solicitud[4] ))!=-1?"200":"No se pudo transferir dinero");
                         break;
                     
-                    default:
-                        out.writeUTF("¡Error! no se ha interpretado la solicitud");                
+                    case "6": out.writeUTF(miBanco.retirarDinero(Integer.parseInt( solicitud[1] ), solicitud[2], Double.parseDouble(solicitud[3]), Integer.parseInt( solicitud[4] ))!=-1?"200":"No se pudo realizar el retiro");
                         break;
+                        
+                    case "7": out.writeUTF(miBanco.getUsuariosToString());
+                        break;
+                    
                 }
                 
                 //Cierro el socket

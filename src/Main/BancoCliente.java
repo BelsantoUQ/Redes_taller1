@@ -458,7 +458,7 @@ public class BancoCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        // TODO add your handling code here:
+        
         String request = "7&";
             try {
                 //Creo el socket para conectarme con el cliente
@@ -471,7 +471,18 @@ public class BancoCliente extends javax.swing.JFrame {
 
                 //Recibo el mensaje del servidor
                 String respuesta = in.readUTF();
-                System.out.println("Respuesta: " + respuesta);
+                System.out.println("\n Respuesta: " + respuesta);
+                String mostrarUsuarios = "";
+                String[] usuarios = respuesta.split("%");
+                for (String usuarioObjeto : usuarios) {
+                    String[] usuario = usuarioObjeto.split("&");
+                    mostrarUsuarios = mostrarUsuarios+"Nombre: "+usuario[0]+" "+usuario[1]+"\n"+
+                            "Cedula: "+usuario[2]+"\n"+
+                            "Cuentas: \n"+
+                            "       #"+usuario[3]+" -> $"+usuario[4]+"\n ------------------------ \n";
+                }
+                System.out.println(mostrarUsuarios);
+                
                 sc.close();
 
             } catch (IOException ex) {
