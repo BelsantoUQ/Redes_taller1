@@ -1,0 +1,3 @@
+numCuenta,nombre,apellido,cedula,deposito
+1,Santiago,Velanida Gallo,1094971551,8000.0;
+2,Estefania,Arroyave Bermudez,1094953679,400000.0;
