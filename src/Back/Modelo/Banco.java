@@ -26,7 +26,7 @@ public class Banco {
         escribirEnArchivo();
 
     }
-    
+
     public static void escribirEnArchivo() throws IOException {
         // Crea una instancia de FileWriter para escribir en el archivo de texto
         FileWriter fileWriter = new FileWriter("src/Recursos_Datos/banco_Cuentas.txt");
@@ -38,7 +38,7 @@ public class Banco {
         bufferedWriter.write("numCuenta,nombre,apellido,cedula,deposito");
         bufferedWriter.newLine();
         for (Cuenta usuario : cuentasUsuarios) {
-            bufferedWriter.write(usuario.toString()+";");
+            bufferedWriter.write(usuario.toString() + ";");
             bufferedWriter.newLine();
         }
 
@@ -46,16 +46,16 @@ public class Banco {
         bufferedWriter.close();
     }
 
-    public String getUsuariosToString(){
+    public String getUsuariosToString() {
         String usuarios = "";
         for (Cuenta usuario : cuentasUsuarios) {
-            usuarios = usuarios+usuario.getNombre()+"&"+usuario.getApellido()
-                    +"&"+usuario.getCedula()+"&"+usuario.getDeposito()+"&"+
-                    usuario.getNumeroCuenta()+"%";
+            usuarios = usuarios + usuario.getNombre() + "&" + usuario.getApellido()
+                    + "&" + usuario.getCedula() + "&" + usuario.getNumeroCuenta() + "&"
+                    + usuario.getDeposito() + "%";
         }
         return usuarios;
     }
-    
+
     public boolean ingresar(String cedula, int clave) {
         for (Cuenta usuario : cuentasUsuarios) {
             if (usuario.getCedula().equals(cedula) && usuario.getClave() == clave) {
@@ -67,12 +67,12 @@ public class Banco {
 
     public int abrirCuenta(String nombre, String apellido, String cedula, int clave, double deposito) {
         try {
-            
+
             Cuenta nuevoUsuario = new Cuenta(nombre, apellido, cedula, clave, deposito, cuentasUsuarios.size() + 101);
             cuentasUsuarios.add(nuevoUsuario);
             return nuevoUsuario.getNumeroCuenta();
         } catch (Exception e) {
-            System.out.println("Erro al registrar cuenta: "+e);
+            System.out.println("Erro al registrar cuenta: " + e);
             return -1;
         }
     }
@@ -111,6 +111,8 @@ public class Banco {
                 double dineroActual = user.getDeposito();
                 user.setDeposito(dineroActual + deposito);
                 return user.getDeposito();
+            } else {
+                return -2;
             }
         }
         return -1;
@@ -122,13 +124,20 @@ public class Banco {
         if (posCuentaDestino >= 0 && posCuentaOrigen >= 0 && posCuentaDestino != posCuentaOrigen) {
             Cuenta userD = cuentasUsuarios.get(posCuentaDestino);
             Cuenta userO = cuentasUsuarios.get(posCuentaOrigen);
-            if (transferencia <= userO.getDeposito() && clave == userO.getClave()) {
-                double dineroActualUserO = userO.getDeposito();
-                double dineroActualUserD = userD.getDeposito();
-                userO.setDeposito(dineroActualUserO - transferencia);
-                userD.setDeposito(dineroActualUserD + transferencia);
+            if (clave == userO.getClave()) {
 
-                return dineroActualUserO - transferencia;
+                if (transferencia <= userO.getDeposito()) {
+                    double dineroActualUserO = userO.getDeposito();
+                    double dineroActualUserD = userD.getDeposito();
+                    userO.setDeposito(dineroActualUserO - transferencia);
+                    userD.setDeposito(dineroActualUserD + transferencia);
+
+                    return dineroActualUserO - transferencia;
+                } else {
+                    return -3;
+                }
+            }else{
+                return -2;
             }
         }
         return -1;
@@ -143,7 +152,11 @@ public class Banco {
                 if (dineroActual >= retiro) {
                     user.setDeposito(dineroActual - retiro);
                     return user.getDeposito();
+                }else{
+                    return -3;
                 }
+            }else{
+                return -2;
             }
         }
         return -1;

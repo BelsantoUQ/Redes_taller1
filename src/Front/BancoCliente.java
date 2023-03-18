@@ -51,15 +51,13 @@ public class BancoCliente extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        txt_cc = new javax.swing.JTextField();
         jButton7 = new javax.swing.JButton();
+        txt_password = new javax.swing.JPasswordField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -129,9 +127,7 @@ public class BancoCliente extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
         jLabel2.setText("Clave:");
 
-        jTextField1.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
-
-        jTextField2.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
+        txt_cc.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
 
         jButton7.setBackground(new java.awt.Color(0, 153, 153));
         jButton7.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
@@ -141,6 +137,8 @@ public class BancoCliente extends javax.swing.JFrame {
                 jButton7ActionPerformed(evt);
             }
         });
+
+        txt_password.setText("jPasswordField1");
 
         jMenu1.setText("Ver");
 
@@ -158,18 +156,6 @@ public class BancoCliente extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Mi cuenta");
-
-        jMenuItem1.setText("Detalles");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
-            }
-        });
-        jMenu2.add(jMenuItem1);
-
-        jMenuBar1.add(jMenu2);
-
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -177,7 +163,7 @@ public class BancoCliente extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(68, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -185,7 +171,7 @@ public class BancoCliente extends javax.swing.JFrame {
                     .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(68, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -193,8 +179,8 @@ public class BancoCliente extends javax.swing.JFrame {
                     .addComponent(jLabel2))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField1)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE))
+                    .addComponent(txt_cc, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
+                    .addComponent(txt_password))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton7)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -207,12 +193,12 @@ public class BancoCliente extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txt_cc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(txt_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(17, 17, 17)
                         .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -255,7 +241,15 @@ public class BancoCliente extends javax.swing.JFrame {
             out.writeUTF(request);
 
             //Recibo el mensaje del servidor
-            System.out.println("Respuesta: " + in.readUTF());
+            String resp = in.readUTF();
+            if (resp.equals("200")) {
+
+                JOptionPane.showMessageDialog(null, "Exito en el proceso: \n" + resp);
+            } else if (resp.equals("400")) {
+                JOptionPane.showMessageDialog(null, "Ha habido un problema en el servidor y no se ha creado el usuario");
+            } else {
+                JOptionPane.showMessageDialog(null, "Ha habido un problema en los daros: \n" + resp);
+            }
 
             sc.close();
 
@@ -291,7 +285,7 @@ public class BancoCliente extends javax.swing.JFrame {
             out.writeUTF(request);
 
             //Recibo el mensaje del servidor
-            System.out.println("Respuesta: " + in.readUTF());
+            JOptionPane.showMessageDialog(null, "Respuesta: " + in.readUTF());
 
             sc.close();
 
@@ -320,7 +314,7 @@ public class BancoCliente extends javax.swing.JFrame {
             out.writeUTF(request);
 
             //Recibo el mensaje del servidor
-            System.out.println("Respuesta: " + in.readUTF());
+            JOptionPane.showMessageDialog(null, "Respuesta: " + in.readUTF());
 
             sc.close();
 
@@ -342,14 +336,22 @@ public class BancoCliente extends javax.swing.JFrame {
             out = new DataOutputStream(sc.getOutputStream());
             String request = "4&";
             request = request + (JOptionPane.showInputDialog("Ingrese el numero de la cuenta")) + "&";
-            request = request + cedulaUsuario + "&";
-            request = request + (JOptionPane.showInputDialog("Ingrese el deposito inicial del cliente") + "&");
+            request = request + JOptionPane.showInputDialog("Ingrese la cedula del \npropietario de la cuenta") + "&";
+            request = request + (JOptionPane.showInputDialog("Ingrese el monto a depositar") + "&");
             //Envio un mensaje al cliente
             out.writeUTF(request);
 
             //Recibo el mensaje del servidor
-            System.out.println("Respuesta: " + in.readUTF());
+            String resp = in.readUTF();
+            if (resp.equals("-1.0")) {
+                JOptionPane.showMessageDialog(null, "Error:\n numero de cuenta incorrecto");
+            } else if (resp.equals("-2.0")) {
 
+                JOptionPane.showMessageDialog(null, "Respuesta:\n cedula no coincide");
+            } else {
+                JOptionPane.showMessageDialog(null, "Respuesta: \n" + resp);
+
+            }
             sc.close();
 
         } catch (IOException ex) {
@@ -379,8 +381,16 @@ public class BancoCliente extends javax.swing.JFrame {
             out.writeUTF(request);
 
             //Recibo el mensaje del servidor
-            System.out.println("Respuesta: " + in.readUTF());
-
+            String resp = in.readUTF();
+            if (resp.equals("-1.0")) {
+                JOptionPane.showMessageDialog(null, "Respuesta: \n no se ha podido encontrar el numero de cuenta");
+            } else if (resp.equals("-2.0")) {
+                JOptionPane.showMessageDialog(null, "Respuesta:\n clave incorrecta");
+            } else if (resp.equals("-3.0")) {
+                JOptionPane.showMessageDialog(null, "Respuesta: \n no tiene fondos suficientes");
+            } else {
+                JOptionPane.showMessageDialog(null, "Respuesta: \n" + resp);
+            }
             sc.close();
 
         } catch (IOException ex) {
@@ -402,15 +412,23 @@ public class BancoCliente extends javax.swing.JFrame {
             out = new DataOutputStream(sc.getOutputStream());
             String request = "6&";
             request = request + (JOptionPane.showInputDialog("Ingrese el numero de cuenta")) + "&";
-            request = request + (JOptionPane.showInputDialog("Ingrese el numero de la cedula")) + "&";
+            request = request + cedulaUsuario + "&";
             request = request + (JOptionPane.showInputDialog("Ingrese el monto de retiro") + "&");
             request = request + (JOptionPane.showInputDialog("Ingrese la clave") + "&");
             //Envio un mensaje al cliente
             out.writeUTF(request);
 
             //Recibo el mensaje del servidor
-            System.out.println("Respuesta: " + in.readUTF());
-
+            String resp = in.readUTF();
+            if (resp.equals("-1.0")) {
+                JOptionPane.showMessageDialog(null, "Respuesta: \n no se ha podido encontrar el numero de cuenta");
+            } else if (resp.equals("-2.0")) {
+                JOptionPane.showMessageDialog(null, "Respuesta:\n clave incorrecta");
+            } else if (resp.equals("-3.0")) {
+                JOptionPane.showMessageDialog(null, "Respuesta: \n no tiene fondos suficientes");
+            } else {
+                JOptionPane.showMessageDialog(null, "Respuesta: \n" + resp);
+            }
             sc.close();
 
         } catch (IOException ex) {
@@ -423,13 +441,13 @@ public class BancoCliente extends javax.swing.JFrame {
         /*
            cedula,  clave
          */
-        
-        if (jTextField2.getText().toString().equals("") || jTextField1.getText().toString().equals("")) {
+
+        if (txt_password.getText().toString().equals("") || txt_cc.getText().toString().equals("")) {
             System.out.println("Debe llenar ambos campos");
         } else {
             String request = "0&";
-            request = request + (jTextField1.getText().toString() + "&");
-            request = request + (jTextField2.getText().toString() + "&");
+            request = request + (txt_cc.getText().toString() + "&");
+            request = request + (txt_password.getText().toString() + "&");
             try {
                 //Creo el socket para conectarme con el cliente
                 Socket sc = new Socket(HOST, PUERTO);
@@ -443,10 +461,13 @@ public class BancoCliente extends javax.swing.JFrame {
                 String respuesta = in.readUTF();
                 System.out.println("Respuesta: " + respuesta);
                 if (respuesta.equals("200")) {
-                    System.out.println("Ingreso Exitoso");
+                    JOptionPane.showMessageDialog(null, "Ingreso Exitoso");
                     controlBotones(true);
+                    cedulaUsuario = txt_cc.getText().toString();
+                    txt_cc.setEnabled(false);
+                    txt_password.setEnabled(false);
                 } else {
-                    System.out.println("Los datos no son correcto");
+                    JOptionPane.showMessageDialog(null, "Los datos no son correcto");
                 }
 
                 sc.close();
@@ -458,44 +479,38 @@ public class BancoCliente extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        
+
         String request = "7&";
-            try {
-                //Creo el socket para conectarme con el cliente
-                Socket sc = new Socket(HOST, PUERTO);
+        try {
+            //Creo el socket para conectarme con el cliente
+            Socket sc = new Socket(HOST, PUERTO);
 
-                in = new DataInputStream(sc.getInputStream());
-                out = new DataOutputStream(sc.getOutputStream());
-                //Envio un mensaje al cliente
-                out.writeUTF(request);
+            in = new DataInputStream(sc.getInputStream());
+            out = new DataOutputStream(sc.getOutputStream());
+            //Envio un mensaje al cliente
+            out.writeUTF(request);
 
-                //Recibo el mensaje del servidor
-                String respuesta = in.readUTF();
-                System.out.println("\n Respuesta: " + respuesta);
-                String mostrarUsuarios = "";
-                String[] usuarios = respuesta.split("%");
-                for (String usuarioObjeto : usuarios) {
-                    String[] usuario = usuarioObjeto.split("&");
-                    mostrarUsuarios = mostrarUsuarios+"Nombre: "+usuario[0]+" "+usuario[1]+"\n"+
-                            "Cedula: "+usuario[2]+"\n"+
-                            "Cuentas: \n"+
-                            "       #"+usuario[3]+" -> $"+usuario[4]+"\n ------------------------ \n";
-                }
-                System.out.println(mostrarUsuarios);
-                
-                sc.close();
-
-            } catch (IOException ex) {
-                Logger.getLogger(BancoCliente.class.getName()).log(Level.SEVERE, null, ex);
+            //Recibo el mensaje del servidor
+            String respuesta = in.readUTF();
+            System.out.println("\n Respuesta: " + respuesta);
+            String mostrarUsuarios = "";
+            String[] usuarios = respuesta.split("%");
+            for (String usuarioObjeto : usuarios) {
+                String[] usuario = usuarioObjeto.split("&");
+                mostrarUsuarios = mostrarUsuarios + "Nombre: " + usuario[0] + " " + usuario[1] + "\n"
+                        + "Cedula: " + usuario[2] + "\n"
+                        + "Cuentas: \n"
+                        + "       #" + usuario[3] + " -> $" + usuario[4] + "\n ------------------------ \n";
             }
-        
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+            System.out.println(mostrarUsuarios);
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
-        
-        
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+            sc.close();
+
+        } catch (IOException ex) {
+            Logger.getLogger(BancoCliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -544,13 +559,11 @@ public class BancoCliente extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField txt_cc;
+    private javax.swing.JPasswordField txt_password;
     // End of variables declaration//GEN-END:variables
 private void controlBotones(boolean logueado) {
         jButton1.setEnabled(logueado);
