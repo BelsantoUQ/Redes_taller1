@@ -5,9 +5,12 @@
  */
 package Front;
 
+import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,14 +26,15 @@ public class BancoCliente extends javax.swing.JFrame {
     final String HOST;
     //Puerto del servidor
     final int PUERTO;
-    DataInputStream in;
-    DataOutputStream out;
+    BufferedReader in;
+    PrintWriter out;
     String cedulaUsuario;
 
     public BancoCliente() {
         initComponents();
-        PUERTO = 5000;
-        HOST = "127.0.0.1";
+        PUERTO = 10533;
+        HOST = "4.tcp.ngrok.io";
+        //HOST = "127.0.0.1";
         cedulaUsuario = null;
     }
 
@@ -229,8 +233,8 @@ public class BancoCliente extends javax.swing.JFrame {
             //Creo el socket para conectarme con el cliente
             Socket sc = new Socket(HOST, PUERTO);
 
-            in = new DataInputStream(sc.getInputStream());
-            out = new DataOutputStream(sc.getOutputStream());
+            in = new BufferedReader(new InputStreamReader(sc.getInputStream()));
+            out = new PrintWriter(sc.getOutputStream(), true);
             String request = "1&";
             request = request + (JOptionPane.showInputDialog("Ingrese el nombre del cliente")) + "&";
             request = request + (JOptionPane.showInputDialog("Ingrese el apellido del cliente") + "&");
@@ -238,19 +242,12 @@ public class BancoCliente extends javax.swing.JFrame {
             request = request + (JOptionPane.showInputDialog("Ingrese la clave del cliente") + "&");
             request = request + (JOptionPane.showInputDialog("Ingrese el deposito inicial del cliente") + "&");
             //Envio un mensaje al cliente
-            out.writeUTF(request);
+            out.println(request);
 
             //Recibo el mensaje del servidor
-            String resp = in.readUTF();
-            if (resp.equals("200")) {
-
-                JOptionPane.showMessageDialog(null, "Exito en el proceso: \n" + resp);
-            } else if (resp.equals("400")) {
-                JOptionPane.showMessageDialog(null, "Ha habido un problema en el servidor y no se ha creado el usuario");
-            } else {
-                JOptionPane.showMessageDialog(null, "Ha habido un problema en los daros: \n" + resp);
-            }
-
+            String resp = in.readLine();
+            JOptionPane.showMessageDialog(null, resp);
+            
             sc.close();
 
         } catch (IOException ex) {
@@ -269,8 +266,8 @@ public class BancoCliente extends javax.swing.JFrame {
             //Creo el socket para conectarme con el cliente
             Socket sc = new Socket(HOST, PUERTO);
 
-            in = new DataInputStream(sc.getInputStream());
-            out = new DataOutputStream(sc.getOutputStream());
+            in = new BufferedReader(new InputStreamReader(sc.getInputStream()));
+            out = new PrintWriter(sc.getOutputStream(), true);
             String request = "2&";
             request = request + (JOptionPane.showInputDialog("Ingrese la clave")) + "&";
             request = request + cedulaUsuario + "&";
@@ -282,10 +279,11 @@ public class BancoCliente extends javax.swing.JFrame {
             request = request + (JOptionPane.showInputDialog("Ingrese el nuevo valor") + "&");
 
             //Envio un mensaje al cliente
-            out.writeUTF(request);
+            out.println(request);
 
             //Recibo el mensaje del servidor
-            JOptionPane.showMessageDialog(null, "Respuesta: " + in.readUTF());
+            String resp = in.readLine();
+            JOptionPane.showMessageDialog(null, "Respuesta: " + resp);
 
             sc.close();
 
@@ -304,17 +302,18 @@ public class BancoCliente extends javax.swing.JFrame {
             //Creo el socket para conectarme con el cliente
             Socket sc = new Socket(HOST, PUERTO);
 
-            in = new DataInputStream(sc.getInputStream());
-            out = new DataOutputStream(sc.getOutputStream());
+            in = new BufferedReader(new InputStreamReader(sc.getInputStream()));
+            out = new PrintWriter(sc.getOutputStream(), true);
             String request = "3&";
             request = request + (JOptionPane.showInputDialog("Ingrese el numero de cuenta")) + "&";
             request = request + (JOptionPane.showInputDialog("Ingrese el motivo del cierre de cuenta") + "&");
             request = request + (JOptionPane.showInputDialog("Ingrese la clave del cliente") + "&");
             //Envio un mensaje al cliente
-            out.writeUTF(request);
+            out.println(request);
 
             //Recibo el mensaje del servidor
-            JOptionPane.showMessageDialog(null, "Respuesta: " + in.readUTF());
+            String resp = in.readLine();
+            JOptionPane.showMessageDialog(null, "Respuesta: " + resp);
 
             sc.close();
 
@@ -332,17 +331,17 @@ public class BancoCliente extends javax.swing.JFrame {
             //Creo el socket para conectarme con el cliente
             Socket sc = new Socket(HOST, PUERTO);
 
-            in = new DataInputStream(sc.getInputStream());
-            out = new DataOutputStream(sc.getOutputStream());
+            in = new BufferedReader(new InputStreamReader(sc.getInputStream()));
+            out = new PrintWriter(sc.getOutputStream(), true);
             String request = "4&";
             request = request + (JOptionPane.showInputDialog("Ingrese el numero de la cuenta")) + "&";
             request = request + JOptionPane.showInputDialog("Ingrese la cedula del \npropietario de la cuenta") + "&";
             request = request + (JOptionPane.showInputDialog("Ingrese el monto a depositar") + "&");
             //Envio un mensaje al cliente
-            out.writeUTF(request);
+            out.println(request);
 
             //Recibo el mensaje del servidor
-            String resp = in.readUTF();
+            String resp = in.readLine();
             if (resp.equals("-1.0")) {
                 JOptionPane.showMessageDialog(null, "Error:\n numero de cuenta incorrecto");
             } else if (resp.equals("-2.0")) {
@@ -369,8 +368,8 @@ public class BancoCliente extends javax.swing.JFrame {
             //Creo el socket para conectarme con el cliente
             Socket sc = new Socket(HOST, PUERTO);
 
-            in = new DataInputStream(sc.getInputStream());
-            out = new DataOutputStream(sc.getOutputStream());
+            in = new BufferedReader(new InputStreamReader(sc.getInputStream()));
+            out = new PrintWriter(sc.getOutputStream(), true);
             String request = "5&";
             request = request + (JOptionPane.showInputDialog("Ingrese el numero de cuenta de destino")) + "&";
             request = request + (JOptionPane.showInputDialog("Ingrese el monto de transferencia") + "&");
@@ -378,10 +377,10 @@ public class BancoCliente extends javax.swing.JFrame {
             request = request + (JOptionPane.showInputDialog("Ingrese la clave") + "&");
 
             //Envio un mensaje al cliente
-            out.writeUTF(request);
+            out.println(request);
 
             //Recibo el mensaje del servidor
-            String resp = in.readUTF();
+            String resp = in.readLine();
             if (resp.equals("-1.0")) {
                 JOptionPane.showMessageDialog(null, "Respuesta: \n no se ha podido encontrar el numero de cuenta");
             } else if (resp.equals("-2.0")) {
@@ -408,18 +407,18 @@ public class BancoCliente extends javax.swing.JFrame {
             //Creo el socket para conectarme con el cliente
             Socket sc = new Socket(HOST, PUERTO);
 
-            in = new DataInputStream(sc.getInputStream());
-            out = new DataOutputStream(sc.getOutputStream());
+            in = new BufferedReader(new InputStreamReader(sc.getInputStream()));
+            out = new PrintWriter(sc.getOutputStream(), true);
             String request = "6&";
             request = request + (JOptionPane.showInputDialog("Ingrese el numero de cuenta")) + "&";
             request = request + cedulaUsuario + "&";
             request = request + (JOptionPane.showInputDialog("Ingrese el monto de retiro") + "&");
             request = request + (JOptionPane.showInputDialog("Ingrese la clave") + "&");
             //Envio un mensaje al cliente
-            out.writeUTF(request);
+            out.println(request);
 
             //Recibo el mensaje del servidor
-            String resp = in.readUTF();
+            String resp = in.readLine();
             if (resp.equals("-1.0")) {
                 JOptionPane.showMessageDialog(null, "Respuesta: \n no se ha podido encontrar el numero de cuenta");
             } else if (resp.equals("-2.0")) {
@@ -452,13 +451,13 @@ public class BancoCliente extends javax.swing.JFrame {
                 //Creo el socket para conectarme con el cliente
                 Socket sc = new Socket(HOST, PUERTO);
 
-                in = new DataInputStream(sc.getInputStream());
-                out = new DataOutputStream(sc.getOutputStream());
+                in = new BufferedReader(new InputStreamReader(sc.getInputStream()));
+                out = new PrintWriter(sc.getOutputStream(), true);
                 //Envio un mensaje al cliente
-                out.writeUTF(request);
+                out.println(request);
 
                 //Recibo el mensaje del servidor
-                String respuesta = in.readUTF();
+                String respuesta = in.readLine();
                 System.out.println("Respuesta: " + respuesta);
                 if (respuesta.equals("200")) {
                     JOptionPane.showMessageDialog(null, "Ingreso Exitoso");
@@ -485,13 +484,13 @@ public class BancoCliente extends javax.swing.JFrame {
             //Creo el socket para conectarme con el cliente
             Socket sc = new Socket(HOST, PUERTO);
 
-            in = new DataInputStream(sc.getInputStream());
-            out = new DataOutputStream(sc.getOutputStream());
+            in = new BufferedReader(new InputStreamReader(sc.getInputStream()));
+            out = new PrintWriter(sc.getOutputStream(), true);
             //Envio un mensaje al cliente
-            out.writeUTF(request);
+            out.println(request);
 
             //Recibo el mensaje del servidor
-            String respuesta = in.readUTF();
+            String respuesta = in.readLine();
             System.out.println("\n Respuesta: " + respuesta);
             String mostrarUsuarios = "";
             String[] usuarios = respuesta.split("%");
