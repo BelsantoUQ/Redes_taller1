@@ -35,7 +35,7 @@ public class Banco {
         BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 
         // Itera sobre el arreglo de objetos y escribe cada objeto en una línea separada en el archivo de texto
-        bufferedWriter.write("numCuenta,nombre,apellido,cedula,deposito");
+        bufferedWriter.write("numCuenta,nombre,apellido,cedula,deposito,clave");
         bufferedWriter.newLine();
         for (Cuenta usuario : cuentasUsuarios) {
             bufferedWriter.write(usuario.toString() + ";");

@@ -5,6 +5,9 @@
  */
 package Back.Modelo;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  *
  * @author USER
@@ -64,7 +67,42 @@ public class Cuenta {
     }
     
     public String toString(){
-        return numeroCuenta+","+nombre+","+apellido+","+cedula+","+deposito;
+        return numeroCuenta+","+nombre+","+apellido+","+cedula+","+deposito+","+cifrarTexto(""+clave,4);
+    }
+    
+    public String cifrarTexto(String texto, int clave) {
+        Map<Character, Character> tablaCifrado = crearTablaCifrado(clave);
+        StringBuilder textoCifrado = new StringBuilder();
+
+        for (char caracter : texto.toCharArray()) {
+            // Verificar si el carácter está en la tabla de cifrado
+            if (tablaCifrado.containsKey(caracter)) {
+                textoCifrado.append(tablaCifrado.get(caracter));
+            } else {
+                // Si el carácter no está en la tabla, mantenerlo sin cambios
+                textoCifrado.append(caracter);
+            }
+        }
+
+        return textoCifrado.toString();
+    }
+
+    private Map<Character, Character> crearTablaCifrado(int clave) {
+        Map<Character, Character> tablaCifrado = new HashMap<>();
+        String caracteresPermitidos = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 áéíóúÁÉÍÓÚ";
+
+        // Asegurarse de que la clave esté en el rango adecuado
+        clave = clave % caracteresPermitidos.length();
+
+        // Crear la tabla de cifrado con desplazamiento según la clave
+        for (int i = 0; i < caracteresPermitidos.length(); i++) {
+            char caracterOriginal = caracteresPermitidos.charAt(i);
+            int indiceCifrado = (i + clave + caracteresPermitidos.length()) % caracteresPermitidos.length();
+            char caracterCifrado = caracteresPermitidos.charAt(indiceCifrado);
+            tablaCifrado.put(caracterOriginal, caracterCifrado);
+        }
+
+        return tablaCifrado;
     }
     
 }

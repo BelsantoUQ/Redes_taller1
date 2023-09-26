@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -32,9 +34,9 @@ public class BancoCliente extends javax.swing.JFrame {
 
     public BancoCliente() {
         initComponents();
-        PUERTO = 10533;
-        HOST = "4.tcp.ngrok.io";
-        //HOST = "127.0.0.1";
+        PUERTO = 5000;
+        //HOST = "4.tcp.ngrok.io";
+        HOST = "127.0.0.1";
         cedulaUsuario = null;
     }
 
@@ -68,7 +70,6 @@ public class BancoCliente extends javax.swing.JFrame {
         jButton1.setBackground(new java.awt.Color(0, 102, 102));
         jButton1.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         jButton1.setText("Crear Cuenta");
-        jButton1.setEnabled(false);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -236,14 +237,15 @@ public class BancoCliente extends javax.swing.JFrame {
             in = new BufferedReader(new InputStreamReader(sc.getInputStream()));
             out = new PrintWriter(sc.getOutputStream(), true);
             String request = "1&";
-            request = request + (JOptionPane.showInputDialog("Ingrese el nombre del cliente")) + "&";
-            request = request + (JOptionPane.showInputDialog("Ingrese el apellido del cliente") + "&");
-            request = request + (JOptionPane.showInputDialog("Ingrese la cedula del cliente") + "&");
-            request = request + (JOptionPane.showInputDialog("Ingrese la clave del cliente") + "&");
-            request = request + (JOptionPane.showInputDialog("Ingrese el deposito inicial del cliente") + "&");
+            request = request + cifrarTexto((JOptionPane.showInputDialog("Ingrese el nombre del cliente")),4) + "&";
+            request = request + (cifrarTexto(JOptionPane.showInputDialog("Ingrese el apellido del cliente"),4) + "&");
+            request = request + (cifrarTexto(JOptionPane.showInputDialog("Ingrese la cedula del cliente"), 4) + "&");
+            request = request + (cifrarTexto(JOptionPane.showInputDialog("Ingrese la clave del cliente"), 4) + "&");
+            request = request + (cifrarTexto(JOptionPane.showInputDialog("Ingrese el deposito inicial del cliente"), 4) + "&");
             //Envio un mensaje al cliente
             out.println(request);
-
+            System.out.println(request);
+            
             //Recibo el mensaje del servidor
             String resp = in.readLine();
             JOptionPane.showMessageDialog(null, resp);
@@ -269,17 +271,18 @@ public class BancoCliente extends javax.swing.JFrame {
             in = new BufferedReader(new InputStreamReader(sc.getInputStream()));
             out = new PrintWriter(sc.getOutputStream(), true);
             String request = "2&";
-            request = request + (JOptionPane.showInputDialog("Ingrese la clave")) + "&";
-            request = request + cedulaUsuario + "&";
+            request = request + (cifrarTexto(JOptionPane.showInputDialog("Ingrese la clave"), 4)) + "&";
+            request = request + cifrarTexto(cedulaUsuario, 4) + "&";
 
             request = request
-                    + (JOptionPane.showInputDialog(null, "Seleccione una opcion", "Opciones de Modificación", JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Nombre", "Apellido"}, "Nombre")
+                    + ( cifrarTexto(""+(JOptionPane.showInputDialog(null, "Seleccione una opcion", "Opciones de Modificación", JOptionPane.QUESTION_MESSAGE, null, new Object[]{"Nombre", "Apellido"}, "Nombre")),4)
                     + "&");
 
-            request = request + (JOptionPane.showInputDialog("Ingrese el nuevo valor") + "&");
+            request = request + (cifrarTexto(JOptionPane.showInputDialog("Ingrese el nuevo valor"), 4) + "&");
 
             //Envio un mensaje al cliente
             out.println(request);
+            System.out.println(request);
 
             //Recibo el mensaje del servidor
             String resp = in.readLine();
@@ -305,11 +308,12 @@ public class BancoCliente extends javax.swing.JFrame {
             in = new BufferedReader(new InputStreamReader(sc.getInputStream()));
             out = new PrintWriter(sc.getOutputStream(), true);
             String request = "3&";
-            request = request + (JOptionPane.showInputDialog("Ingrese el numero de cuenta")) + "&";
-            request = request + (JOptionPane.showInputDialog("Ingrese el motivo del cierre de cuenta") + "&");
-            request = request + (JOptionPane.showInputDialog("Ingrese la clave del cliente") + "&");
+            request = request + cifrarTexto((JOptionPane.showInputDialog("Ingrese el numero de cuenta")),4) + "&";
+            request = request + (cifrarTexto(JOptionPane.showInputDialog("Ingrese el motivo del cierre de cuenta"), 4) + "&");
+            request = request + (cifrarTexto(JOptionPane.showInputDialog("Ingrese la clave del cliente"),4) + "&");
             //Envio un mensaje al cliente
             out.println(request);
+            System.out.println(request);
 
             //Recibo el mensaje del servidor
             String resp = in.readLine();
@@ -334,11 +338,12 @@ public class BancoCliente extends javax.swing.JFrame {
             in = new BufferedReader(new InputStreamReader(sc.getInputStream()));
             out = new PrintWriter(sc.getOutputStream(), true);
             String request = "4&";
-            request = request + (JOptionPane.showInputDialog("Ingrese el numero de la cuenta")) + "&";
-            request = request + JOptionPane.showInputDialog("Ingrese la cedula del \npropietario de la cuenta") + "&";
-            request = request + (JOptionPane.showInputDialog("Ingrese el monto a depositar") + "&");
+            request = request + cifrarTexto(JOptionPane.showInputDialog("Ingrese el numero de la cuenta"),4) + "&";
+            request = request + cifrarTexto(JOptionPane.showInputDialog("Ingrese la cedula del \npropietario de la cuenta"), 4) + "&";
+            request = request + (cifrarTexto(JOptionPane.showInputDialog("Ingrese el monto a depositar"), 4) + "&");
             //Envio un mensaje al cliente
             out.println(request);
+            System.out.println(request);
 
             //Recibo el mensaje del servidor
             String resp = in.readLine();
@@ -371,13 +376,14 @@ public class BancoCliente extends javax.swing.JFrame {
             in = new BufferedReader(new InputStreamReader(sc.getInputStream()));
             out = new PrintWriter(sc.getOutputStream(), true);
             String request = "5&";
-            request = request + (JOptionPane.showInputDialog("Ingrese el numero de cuenta de destino")) + "&";
-            request = request + (JOptionPane.showInputDialog("Ingrese el monto de transferencia") + "&");
-            request = request + (JOptionPane.showInputDialog("Ingrese el numero de cuenta de origen")) + "&";
-            request = request + (JOptionPane.showInputDialog("Ingrese la clave") + "&");
+            request = request + cifrarTexto(JOptionPane.showInputDialog("Ingrese el numero de cuenta de destino"),4) + "&";
+            request = request + (cifrarTexto(JOptionPane.showInputDialog("Ingrese el monto de transferencia"),4) + "&");
+            request = request + cifrarTexto(JOptionPane.showInputDialog("Ingrese el numero de cuenta de origen"),4) + "&";
+            request = request + (cifrarTexto(JOptionPane.showInputDialog("Ingrese la clave"),4) + "&");
 
             //Envio un mensaje al cliente
             out.println(request);
+            System.out.println(request);
 
             //Recibo el mensaje del servidor
             String resp = in.readLine();
@@ -410,12 +416,13 @@ public class BancoCliente extends javax.swing.JFrame {
             in = new BufferedReader(new InputStreamReader(sc.getInputStream()));
             out = new PrintWriter(sc.getOutputStream(), true);
             String request = "6&";
-            request = request + (JOptionPane.showInputDialog("Ingrese el numero de cuenta")) + "&";
-            request = request + cedulaUsuario + "&";
-            request = request + (JOptionPane.showInputDialog("Ingrese el monto de retiro") + "&");
-            request = request + (JOptionPane.showInputDialog("Ingrese la clave") + "&");
+            request = request + cifrarTexto(JOptionPane.showInputDialog("Ingrese el numero de cuenta"),4) + "&";
+            request = request + cifrarTexto(cedulaUsuario,4) + "&";
+            request = request + (cifrarTexto(JOptionPane.showInputDialog("Ingrese el monto de retiro"),4) + "&");
+            request = request + (cifrarTexto(JOptionPane.showInputDialog("Ingrese la clave"),4) + "&");
             //Envio un mensaje al cliente
             out.println(request);
+            System.out.println(request);
 
             //Recibo el mensaje del servidor
             String resp = in.readLine();
@@ -445,8 +452,8 @@ public class BancoCliente extends javax.swing.JFrame {
             System.out.println("Debe llenar ambos campos");
         } else {
             String request = "0&";
-            request = request + (txt_cc.getText().toString() + "&");
-            request = request + (txt_password.getText().toString() + "&");
+            request = request + (cifrarTexto(txt_cc.getText().toString(), 4) + "&");
+            request = request + (cifrarTexto(txt_password.getText().toString(), 4) + "&");
             try {
                 //Creo el socket para conectarme con el cliente
                 Socket sc = new Socket(HOST, PUERTO);
@@ -455,6 +462,7 @@ public class BancoCliente extends javax.swing.JFrame {
                 out = new PrintWriter(sc.getOutputStream(), true);
                 //Envio un mensaje al cliente
                 out.println(request);
+            System.out.println(request);
 
                 //Recibo el mensaje del servidor
                 String respuesta = in.readLine();
@@ -488,6 +496,7 @@ public class BancoCliente extends javax.swing.JFrame {
             out = new PrintWriter(sc.getOutputStream(), true);
             //Envio un mensaje al cliente
             out.println(request);
+            System.out.println(request);
 
             //Recibo el mensaje del servidor
             String respuesta = in.readLine();
@@ -564,12 +573,47 @@ public class BancoCliente extends javax.swing.JFrame {
     private javax.swing.JTextField txt_cc;
     private javax.swing.JPasswordField txt_password;
     // End of variables declaration//GEN-END:variables
-private void controlBotones(boolean logueado) {
-        jButton1.setEnabled(logueado);
+    private void controlBotones(boolean logueado) {
         jButton2.setEnabled(logueado);
         jButton3.setEnabled(logueado);
         jButton4.setEnabled(logueado);
         jButton5.setEnabled(logueado);
         jButton6.setEnabled(logueado);
     }
+    public String cifrarTexto(String texto, int clave) {
+        Map<Character, Character> tablaCifrado = crearTablaCifrado(clave);
+        StringBuilder textoCifrado = new StringBuilder();
+
+        for (char caracter : texto.toCharArray()) {
+            // Verificar si el carácter está en la tabla de cifrado
+            if (tablaCifrado.containsKey(caracter)) {
+                textoCifrado.append(tablaCifrado.get(caracter));
+            } else {
+                // Si el carácter no está en la tabla, mantenerlo sin cambios
+                textoCifrado.append(caracter);
+            }
+        }
+
+        return textoCifrado.toString();
+    }
+
+    private Map<Character, Character> crearTablaCifrado(int clave) {
+        Map<Character, Character> tablaCifrado = new HashMap<>();
+        String caracteresPermitidos = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 áéíóúÁÉÍÓÚ";
+
+        // Asegurarse de que la clave esté en el rango adecuado
+        clave = clave % caracteresPermitidos.length();
+
+        // Crear la tabla de cifrado con desplazamiento según la clave
+        for (int i = 0; i < caracteresPermitidos.length(); i++) {
+            char caracterOriginal = caracteresPermitidos.charAt(i);
+            int indiceCifrado = (i + clave + caracteresPermitidos.length()) % caracteresPermitidos.length();
+            char caracterCifrado = caracteresPermitidos.charAt(indiceCifrado);
+            tablaCifrado.put(caracterOriginal, caracterCifrado);
+        }
+
+        return tablaCifrado;
+    }
 }
+
+

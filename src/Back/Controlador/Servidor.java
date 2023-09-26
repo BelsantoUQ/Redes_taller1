@@ -14,6 +14,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -57,7 +59,7 @@ public class Servidor {
                 switch (solicitud[0]) {
                     case "0":
                         try {
-                            out.println(miBanco.ingresar(solicitud[1], Integer.parseInt(solicitud[2])) ? "200" : "400");
+                            out.println(miBanco.ingresar(descifrarTexto(solicitud[1],4), Integer.parseInt(descifrarTexto(solicitud[2], 4))) ? "200" : "400");
                         } catch (Exception e) {
                             out.println("Error --> " + e+ "\n contacte con el administrador");
                         }
@@ -66,7 +68,7 @@ public class Servidor {
                     case "1":
                         try {
                             System.out.println("opcion 1: registrar cuenta");
-                            out.println("Número de cuenta asignado: #" + miBanco.abrirCuenta(solicitud[1], solicitud[2], solicitud[3], Integer.parseInt(solicitud[4]), Double.parseDouble(solicitud[5])));
+                            out.println("Número de cuenta asignado: #" + miBanco.abrirCuenta(descifrarTexto(solicitud[1], 4), descifrarTexto(solicitud[2], 4), descifrarTexto(solicitud[3], 4), Integer.parseInt(descifrarTexto(solicitud[4], 4)), Double.parseDouble(descifrarTexto(solicitud[5], 4))));
 
                         } catch (Exception e) {
                             out.println("Error --> " + e+ "\n contacte con el administrador");
@@ -77,7 +79,7 @@ public class Servidor {
                         try {
 
                             System.out.println("opcion 2: modificar cuenta");
-                            out.println(miBanco.modificarCuenta(Integer.parseInt(solicitud[1]), solicitud[2], solicitud[3], solicitud[4]) ? "Modificación exitosa" : "Error no se ha encontrado el usuario");
+                            out.println(miBanco.modificarCuenta(Integer.parseInt(descifrarTexto(solicitud[1], 4)), descifrarTexto(solicitud[2], 4), descifrarTexto(solicitud[3], 4), descifrarTexto(solicitud[4], 4)) ? "Modificación exitosa" : "Error no se ha encontrado el usuario");
                         } catch (Exception e) {
                             out.println("Error --> " + e+ "\n contacte con el administrador");
                         }
@@ -86,7 +88,7 @@ public class Servidor {
                     case "3":
                         try {
 
-                            out.println(miBanco.cerrarCuenta(Integer.parseInt(solicitud[1]), solicitud[2], Integer.parseInt(solicitud[3])) ? "Cancelación de cuenta exitosa" : "Error no se ha encontrado el usuario");
+                            out.println(miBanco.cerrarCuenta(Integer.parseInt(descifrarTexto(solicitud[1], 4)), descifrarTexto(solicitud[2], 4), Integer.parseInt(descifrarTexto(solicitud[3], 4))) ? "Cancelación de cuenta exitosa" : "Error no se ha encontrado el usuario");
                         } catch (Exception e) {
                             out.println("Error --> " + e + "\n contacte con el administrador");
                         }
@@ -95,7 +97,7 @@ public class Servidor {
                     case "4":
                         try {
 
-                            resultado = miBanco.consignarDinero(Integer.parseInt(solicitud[1]), solicitud[2], Double.parseDouble(solicitud[3]));
+                            resultado = miBanco.consignarDinero(Integer.parseInt(descifrarTexto(solicitud[1], 4)), descifrarTexto(solicitud[2], 4), Double.parseDouble(descifrarTexto(solicitud[3], 4)));
                             out.println((resultado > -1) ? "Consignación exitosa \n su saldo actual es: " + resultado : ""+resultado);
                         } catch (Exception e) {
                             out.println("Error --> " + e+ "\n contacte con el administrador");
@@ -105,7 +107,7 @@ public class Servidor {
                     case "5":
                         try {
 
-                            resultado = miBanco.transferirDinero(Integer.parseInt(solicitud[1]), Double.parseDouble(solicitud[2]), Integer.parseInt(solicitud[3]), Integer.parseInt(solicitud[4]));
+                            resultado = miBanco.transferirDinero(Integer.parseInt(descifrarTexto(solicitud[1], 4)), Double.parseDouble(descifrarTexto(solicitud[2], 4)), Integer.parseInt(descifrarTexto(solicitud[3], 4)), Integer.parseInt(descifrarTexto(solicitud[4], 4)));
                             out.println((resultado > -1) ? "Tranferencia exitosa \n ahora el remitente tiene: " + resultado : ""+resultado);
                         } catch (Exception e) {
                             out.println("Error --> " + e+ "\n contacte con el administrador");
@@ -115,7 +117,7 @@ public class Servidor {
                     case "6":
                         try {
 
-                            resultado = miBanco.retirarDinero(Integer.parseInt(solicitud[1]), solicitud[2], Double.parseDouble(solicitud[3]), Integer.parseInt(solicitud[4]));
+                            resultado = miBanco.retirarDinero(Integer.parseInt(descifrarTexto(solicitud[1], 4)), descifrarTexto(solicitud[2], 4), Double.parseDouble(descifrarTexto(solicitud[3], 4)), Integer.parseInt(descifrarTexto(solicitud[4], 4)));
                             out.println((resultado > -1) ? "Transacción exitosa \n su saldo actual es: " + resultado : ""+resultado);
                         } catch (Exception e) {
                             out.println("Error --> " + e+ "\n contacte con el administrador");
@@ -155,4 +157,47 @@ public class Servidor {
         }
 
     }
+    
+    public static String descifrarTexto(String textoCifrado, int clave) {
+        Map<Character, Character> tablaCifrado = crearTablaCifrado(clave);
+        Map<Character, Character> tablaDescifrado = new HashMap<>();
+
+        // Crear la tabla de descifrado invirtiendo la tabla de cifrado
+        for (Map.Entry<Character, Character> entry : tablaCifrado.entrySet()) {
+            tablaDescifrado.put(entry.getValue(), entry.getKey());
+        }
+
+        StringBuilder textoDescifrado = new StringBuilder();
+
+        for (char caracter : textoCifrado.toCharArray()) {
+            // Verificar si el carácter está en la tabla de descifrado
+            if (tablaDescifrado.containsKey(caracter)) {
+                textoDescifrado.append(tablaDescifrado.get(caracter));
+            } else {
+                // Si el carácter no está en la tabla, mantenerlo sin cambios
+                textoDescifrado.append(caracter);
+            }
+        }
+
+        return textoDescifrado.toString();
+    }
+
+    private static Map<Character, Character> crearTablaCifrado(int clave) {
+        Map<Character, Character> tablaCifrado = new HashMap<>();
+        String caracteresPermitidos = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 áéíóúÁÉÍÓÚ";
+
+        // Asegurarse de que la clave esté en el rango adecuado
+        clave = clave % caracteresPermitidos.length();
+
+        // Crear la tabla de cifrado con desplazamiento según la clave
+        for (int i = 0; i < caracteresPermitidos.length(); i++) {
+            char caracterOriginal = caracteresPermitidos.charAt(i);
+            int indiceCifrado = (i + clave + caracteresPermitidos.length()) % caracteresPermitidos.length();
+            char caracterCifrado = caracteresPermitidos.charAt(indiceCifrado);
+            tablaCifrado.put(caracterOriginal, caracterCifrado);
+        }
+
+        return tablaCifrado;
+    }
+
 }
