@@ -34,9 +34,9 @@ public class BancoCliente extends javax.swing.JFrame {
 
     public BancoCliente() {
         initComponents();
-        PUERTO = 5000;
-        //HOST = "4.tcp.ngrok.io";
-        HOST = "127.0.0.1";
+        PUERTO = 17288;
+        HOST = "4.tcp.ngrok.io";
+        //HOST = "6.tcp.us-cal-1.ngrok.io";
         cedulaUsuario = null;
     }
 
